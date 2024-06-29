@@ -58,37 +58,74 @@ export default function App() {
 }
 
 function Header() {
-  return(
-  <header className="header">
-    <h1>Starducks</h1>;
-  </header>
-  )
+  return (
+    <header className="header">
+      <h1>Starducks</h1>
+    </header>
+  );
 }
 
 function Menu() {
+  const pizzas = pizzaData;
+  const numPizzas = pizzas.length;
+
   return (
     <main className="menu">
       <h2>Our menu</h2>
-      <Pizza />
-      <Pizza />
+
+      {numPizzas > 0 && (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza pizzaObj={pizza} key={pizza.name} />
+          ))}
+        </ul>
+      )}
+
+      {/* <Pizza
+        name="Pizza Focaccia"
+        ingredients="Bread with italian olive oil and rosemary"
+        photoName="pizzas/focaccia.jpg"
+        price={25}
+      />
+
+      <Pizza
+        name="Pizza Fungi"
+        ingredients="Tomato, mozarella, ham, aragula, and burrata cheese"
+        photoName="pizzas/spinaci.jpg"
+        price={12}
+      /> */}
     </main>
+  );
+}
+
+function Pizza(props) {
+  return (
+    <li className="pizza">
+      <img src={props.pizzaObj.photoName} alt="missing" />
+      <div>
+        <h3>{props.pizzaObj.name}</h3>
+        <p>{props.pizzaObj.ingredients}</p>
+        <span>{props.pizzaObj.price}</span>
+      </div>
+    </li>
   );
 }
 
 function Footer() {
   const hour = new Date().getHours();
-  console.log(hour);
+  const openHour = 9;
+  const closeHour = 22;
+  const isOpen = hour >= openHour && hour <= closeHour;
 
-  return <footer className="footer">{new Date().toLocaleTimeString()} we are open</footer>;
-}
-
-function Pizza() {
   return (
-    <div>
-      <h3>Pizza Margherita</h3>
-      <p>Tomato, mozarella, ham, aragula, and burrata cheese</p>
-      <img src="pizzas/spinaci.jpg" alt="missing" />
-    </div>
+    <footer className="footer">
+      {isOpen && (
+        <div className="order">
+          <p>We are open until {closeHour} come visit us</p>
+          <button className="btn">Order</button>
+        </div>
+      )}
+    </footer>
   );
 }
 
